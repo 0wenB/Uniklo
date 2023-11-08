@@ -20,8 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const backdrop = document.querySelectorAll(".navbar-backdrop");
 
   if (close.length) {
-    for (var i = 0; i < close.length; i++) {
-      close[i].addEventListener("click", function () {
+    for (var k = 0; k < close.length; k++) {
+      close[k].addEventListener("click", function () {
         for (var j = 0; j < menu.length; j++) {
           menu[j].classList.toggle("hidden");
         }
@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (backdrop.length) {
-    for (var i = 0; i < backdrop.length; i++) {
-      backdrop[i].addEventListener("click", function () {
+    for (var m = 0; m < backdrop.length; m++) {
+      backdrop[m].addEventListener("click", function () {
         for (var j = 0; j < menu.length; j++) {
           menu[j].classList.toggle("hidden");
         }
