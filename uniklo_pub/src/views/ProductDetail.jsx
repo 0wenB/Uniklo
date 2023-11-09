@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Navbar from "../components/Navbar";
 const ProductDetail = () => {
   const { productId } = useParams();
   // console.log(productId);
@@ -29,6 +30,7 @@ const ProductDetail = () => {
   if (error) return <h1>{error}</h1>;
   return (
     <>
+      <Navbar />
       <section className=" min-h-screen md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4">
         <div className="xl:w-2/6 lg:w-2/5 md:block">
           <img

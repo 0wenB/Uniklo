@@ -2,7 +2,7 @@ const Navbar = () => {
   return (
     <>
       <nav className="relative px-4 py-4 flex justify-between items-center bg-white">
-        <a className="text-3xl font-bold leading-none" href="#">
+        <a className="text-3xl font-bold leading-none" href="/">
           <svg
             style={{ color: "red" }}
             xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@ const Navbar = () => {
           <li>
             <a
               className="text-sm text-[#B0A695] font-bold hover:text-[#F46956]"
-              href="#"
+              href="/"
             >
               Atasan
             </a>
@@ -73,7 +73,7 @@ const Navbar = () => {
           <li>
             <a
               className="text-sm text-[#B0A695] font-bold hover:text-[#F46956]"
-              href="#"
+              href="/"
             >
               Dalaman
             </a>
@@ -81,7 +81,7 @@ const Navbar = () => {
           <li className="text-gray-300">
             <a
               className="text-[2rem] text-[#F46956] font-extrabold mx-[1rem]"
-              href="#"
+              href="/"
             >
               UNIKLO
             </a>
@@ -89,7 +89,7 @@ const Navbar = () => {
           <li>
             <a
               className="text-sm text-[#B0A695] font-bold hover:text-[#ED462F]"
-              href="#"
+              href="/"
             >
               Luaran
             </a>
@@ -113,7 +113,7 @@ const Navbar = () => {
           <li>
             <a
               className="text-sm text-[#B0A695] font-bold hover:text-[#ED462F]"
-              href="#"
+              href="/"
             >
               Bawahan
             </a>
