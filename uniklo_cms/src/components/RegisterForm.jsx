@@ -80,7 +80,7 @@ const RegisterForm = () => {
                   name="username"
                   id="username"
                   placeholder="Username"
-                  className="block w-full p-4 text-lg rounded-sm bg-white"
+                  className="block w-full p-4 text-black rounded-sm bg-white"
                 />
               </div>
               <div className="pb-2 pt-4">
@@ -89,12 +89,12 @@ const RegisterForm = () => {
                   name="email"
                   id="email"
                   placeholder="Email"
-                  className="block w-full p-4 text-lg rounded-sm bg-white"
+                  className="block w-full p-4 text-black rounded-sm bg-white"
                 />
               </div>
               <div className="pb-2 pt-4">
                 <input
-                  className="block w-full p-4 text-lg rounded-sm bg-white"
+                  className="block w-full p-4 text-black rounded-sm bg-white"
                   type="password"
                   name="password"
                   id="password"
@@ -107,7 +107,7 @@ const RegisterForm = () => {
                   name="phoneNumber"
                   id="phoneNumber"
                   placeholder="Phone Number"
-                  className="block w-full p-4 text-lg rounded-sm bg-white"
+                  className="block w-full p-4 text-black rounded-sm bg-white"
                 />
               </div>
               <div className="pb-2 pt-4">
@@ -116,7 +116,7 @@ const RegisterForm = () => {
                   name='address"'
                   id='address"'
                   placeholder="Address"
-                  className="block w-full p-4 text-lg rounded-sm bg-white"
+                  className="block w-full p-4 text-black rounded-sm bg-white"
                 />
               </div>
               {/* <div class="text-right text-gray-400 hover:underline hover:text-gray-100">

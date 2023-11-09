@@ -1,19 +1,28 @@
+import { useNavigate } from "react-router-dom";
+
 const ProductCard = ({ detail }) => {
   // console.log(detail);
+  const navigate = useNavigate();
+  const click = () => {
+    navigate(`/product/${detail.id}`);
+  };
   return (
     <>
       {/*   ✅ Product card 1 - Starts Here 👇 */}
-      <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-        <a href="#">
+      <div
+        className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+        onClick={click}
+      >
+        <a>
           <img
-            src="https://image.uniqlo.com/UQ/ST3/id/imagesgoods/462024/item/idgoods_55_462024.jpg?width=750"
+            src={detail.imgUrl}
             alt="Product"
             className="h-80 w-72 object-cover rounded-t-xl"
           />
           <div className="px-4 py-3 w-72">
-            <span className="text-gray-400 mr-3 uppercase text-xs">Brand</span>
+            <span className="text-gray-400 mr-3 uppercase text-xs">UNIKLO</span>
             <p className="text-lg font-bold text-black truncate block capitalize">
-              Product Name
+              {detail.name}
             </p>
             <div className="flex items-center">
               <p className="text-lg font-semibold text-black cursor-auto my-3">

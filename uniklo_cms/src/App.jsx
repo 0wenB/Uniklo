@@ -6,6 +6,7 @@
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import RegisterForm from "./components/RegisterForm";
+import ShowCategories from "./components/ShowCategories";
 import ShowProducts from "./components/ShowProducts";
 import UploadImage from "./components/UploadImage";
 import AddProduct from "./components/addProduct";
@@ -13,34 +14,25 @@ import AddProduct from "./components/addProduct";
 function App() {
   return (
     <>
+      <Navbar />
       <section className="min-h-screen">
-        <Navbar />
         <Login />
       </section>
       <section className="min-h-screen">
-        <Navbar />
         <ShowProducts />
       </section>
       <section className="min-h-screen">
-        <Navbar />
         <AddProduct />
+      </section>
+      <section className="min-h-screen flex items-center justify-center">
+        <UploadImage />
       </section>
       <section className="min-h-screen">
-        <Navbar />
-        <AddProduct />
+        <ShowCategories />
       </section>
-      <div>
-        <Navbar />
-        <section className="min-h-screen flex items-center justify-center">
-          <UploadImage />
-        </section>
-      </div>
-      {/* <div>
-        <Navbar />
-        <section className="min-h-screen flex items-stretch text-white ">
-          <RegisterForm />
-        </section>
-      </div> */}
+      <section className="min-h-screen flex items-stretch text-white ">
+        <RegisterForm />
+      </section>
     </>
   );
 }
