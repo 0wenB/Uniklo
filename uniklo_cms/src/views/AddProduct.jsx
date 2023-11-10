@@ -29,7 +29,7 @@ const AddProduct = () => {
                       className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
                       required="required"
                       type="text"
-                      name="integration[shop_name]"
+                      name="name"
                       id="integration_shop_name"
                     />
                     <p className="text-red text-xs hidden">
@@ -46,7 +46,7 @@ const AddProduct = () => {
                       className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
                       required="required"
                       type="text"
-                      name="integration[shop_name]"
+                      name="price"
                       id="integration_shop_name"
                     />
                     <p className="text-red text-xs hidden">
@@ -81,6 +81,7 @@ const AddProduct = () => {
                       type="text"
                       className="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border border-l-0 h-10 border-grey-light rounded-lg rounded-l-none px-3 relative focus:border-blue focus:shadow"
                       placeholder="https://"
+                      value="imgUrl"
                     />
                   </div>
                   <div className="md:flex md:flex-row md:space-x-4 w-full text-xs">
@@ -92,7 +93,7 @@ const AddProduct = () => {
                         placeholder="--Enter Stock--"
                         className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
                         type="text"
-                        name="integration[street_address]"
+                        name="stock"
                         id="integration_street_address"
                       />
                     </div>
