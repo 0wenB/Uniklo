@@ -1,8 +1,15 @@
+import { Link } from "react-router-dom";
 const ShowProducts = () => {
   return (
     <>
+      <Link
+        to="/add-product"
+        className="text-red-400 flex justify-center pt-[2rem]"
+      >
+        Add Product
+      </Link>
       <section className="min-h-screen">
-        <div className="flex pt-[5rem] justify-center items-center px-4">
+        <div className="flex pt-[3rem] justify-center items-center px-4">
           <div className="relative w-[70rem] overflow-x-auto shadow-md sm:rounded-lg ">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

@@ -9,6 +9,10 @@ import ProductDetail from "../views/ProductDetail";
 
 const router = createBrowserRouter([
   {
+    path: "*",
+    element: <Home />,
+  },
+  {
     path: "/",
     element: <Home />,
   },

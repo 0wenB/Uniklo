@@ -119,18 +119,6 @@ const Navbar = () => {
             </a>
           </li>
         </ul>
-        <a
-          className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200 bg-gray-200"
-          href="#"
-        >
-          Sign In
-        </a>
-        <a
-          className="hidden lg:inline-block py-2 px-6 hover:bg-[#ED462F] text-sm text-white font-bold rounded-xl transition duration-200 bg-[#F46956]"
-          href="#"
-        >
-          Sign up
-        </a>
       </nav>
       <div className="navbar-menu relative z-50 hidden">
         <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>

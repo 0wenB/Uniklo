@@ -1,4 +1,31 @@
+// import { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Login = () => {
+  const [userInput, setUserInput] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const onSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const response = await axios.post(
+        "https://www.bryanowen.tech/login",
+        userInput
+      );
+      // console.log(response);
+      const token = response.data.access_token;
+      localStorage.setItem("token", token);
+      navigate("/products");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  if (error) return <h1>{error}</h1>;
   return (
     <>
       <div
@@ -14,7 +41,8 @@ const Login = () => {
           style={{ maxWidth: "24rem" }}
         >
           <h1 className="text-2xl font-semibold mb-4">Login</h1>
-          <form>
+          {/* {JSON.stringify(userInput)} */}
+          <form onSubmit={onSubmit}>
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -28,6 +56,16 @@ const Login = () => {
                 name="email"
                 className="w-full px-3 py-2 border rounded-md focus:ring focus:ring-purple-500"
                 placeholder="Enter your email"
+                value={userInput.email}
+                onChange={(event) => {
+                  // console.log(event, "<<< event nih");
+                  // console.log(event.target.value, "<<< value terbaru");
+                  const newUserInput = {
+                    email: event.target.value,
+                    password: userInput.password,
+                  };
+                  setUserInput(newUserInput);
+                }}
               />
             </div>
             <div className="mb-4">
@@ -43,6 +81,14 @@ const Login = () => {
                 name="password"
                 className="w-full px-3 py-2 border rounded-md focus:ring focus:ring-purple-500"
                 placeholder="Enter your password"
+                value={userInput.password}
+                onChange={(event) => {
+                  const newInput = {
+                    email: userInput.email,
+                    password: event.target.value,
+                  };
+                  setUserInput(newInput);
+                }}
               />
             </div>
             <div className="mb-4">
