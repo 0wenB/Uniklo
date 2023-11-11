@@ -2,12 +2,15 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 const UploadImage = () => {
   const { productId } = useParams();
   const [product, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [file, setFile] = useState();
+  const navigate = useNavigate();
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -29,12 +32,33 @@ const UploadImage = () => {
   };
 
   const fileInputOnChange = (e) => {
-    const input = e.target.files[0];
+    setFile(e.target.files[0]);
+  };
+
+  const formOnSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("imgUrl", file);
+      await axios.patch(
+        `https://www.bryanowen.tech/products/${productId}`,
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      navigate("/products");
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
   if (loading) return <h1>Loading...</h1>;
   if (error) return <h1>{error}</h1>;
   return (
@@ -54,7 +78,7 @@ const UploadImage = () => {
               <h1 className="text-xl font-bold text-white capitalize dark:text-white">
                 {product.name}
               </h1>
-              <form className="py-4">
+              <form className="py-4" onSubmit={formOnSubmit}>
                 <div>
                   <label className="block text-sm font-medium text-white">
                     Upload Image
@@ -80,15 +104,17 @@ const UploadImage = () => {
                           htmlFor="file-upload"
                           className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                         >
-                          <span className="">Upload a file</span>
+                          <span className="">
+                            Double click to upload a file
+                          </span>
                           <input
                             id="file-upload"
-                            name="file-upload"
+                            name="imgUrl"
                             type="file"
                             className="sr-only"
+                            onChange={fileInputOnChange}
                           />
                         </label>
-                        <p className="pl-1 text-white">or drag and drop</p>
                       </div>
                       <p className="text-xs text-white">
                         PNG, JPG, GIF up to 10MB
@@ -97,7 +123,10 @@ const UploadImage = () => {
                   </div>
                 </div>
                 <div className="flex justify-end mt-6">
-                  <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-[#B0A695] rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">
+                  <button
+                    type="submit"
+                    className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-[#B0A695] rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600"
+                  >
                     Save
                   </button>
                 </div>

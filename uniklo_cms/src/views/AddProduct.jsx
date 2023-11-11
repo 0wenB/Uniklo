@@ -102,7 +102,6 @@ const AddProduct = () => {
       }
       navigate("/products");
     } catch (error) {
-      console.log(error);
       setError(error.message);
     }
   };

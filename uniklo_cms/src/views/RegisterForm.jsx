@@ -1,4 +1,32 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const RegisterForm = () => {
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const [userInput, setUserInput] = useState({
+    username: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+    address: "",
+  });
+  const onSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const token = localStorage.getItem("token");
+      await axios.post("https://www.bryanowen.tech/add-user", userInput, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      navigate("/products");
+    } catch (error) {
+      console.log(error);
+      setError(error.message);
+    }
+  };
+
+  if (error) return <h1>{error}</h1>;
+
   return (
     <>
       <section className="min-h-screen flex items-stretch text-white ">
@@ -62,6 +90,7 @@ const RegisterForm = () => {
               {/* w-auto h-7 sm:h-8 inline-flex */}
               UNIKLO
             </h1>
+            {JSON.stringify(userInput)}
             <div className="py-3 space-x-2">
               <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
                 f
@@ -73,7 +102,11 @@ const RegisterForm = () => {
                 in
               </span>
             </div>
-            <form action="" className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+            <form
+              action=""
+              className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"
+              onSubmit={onSubmit}
+            >
               <div className="pb-2 pt-4">
                 <input
                   type="text"
@@ -81,6 +114,17 @@ const RegisterForm = () => {
                   id="username"
                   placeholder="Username"
                   className="block w-full p-4 text-black rounded-sm bg-white"
+                  value={userInput.name}
+                  onChange={(event) => {
+                    const newInput = {
+                      username: event.target.value,
+                      email: userInput.email,
+                      password: userInput.password,
+                      phoneNumber: userInput.phoneNumber,
+                      address: userInput.address,
+                    };
+                    setUserInput(newInput);
+                  }}
                 />
               </div>
               <div className="pb-2 pt-4">
@@ -90,6 +134,17 @@ const RegisterForm = () => {
                   id="email"
                   placeholder="Email"
                   className="block w-full p-4 text-black rounded-sm bg-white"
+                  value={userInput.email}
+                  onChange={(event) => {
+                    const newInput = {
+                      username: userInput.username,
+                      email: event.target.value,
+                      password: userInput.password,
+                      phoneNumber: userInput.phoneNumber,
+                      address: userInput.address,
+                    };
+                    setUserInput(newInput);
+                  }}
                 />
               </div>
               <div className="pb-2 pt-4">
@@ -99,6 +154,17 @@ const RegisterForm = () => {
                   name="password"
                   id="password"
                   placeholder="Password"
+                  value={userInput.password}
+                  onChange={(event) => {
+                    const newInput = {
+                      username: userInput.username,
+                      email: userInput.email,
+                      password: event.target.value,
+                      phoneNumber: userInput.phoneNumber,
+                      address: userInput.address,
+                    };
+                    setUserInput(newInput);
+                  }}
                 />
               </div>
               <div className="pb-2 pt-4">
@@ -108,6 +174,17 @@ const RegisterForm = () => {
                   id="phoneNumber"
                   placeholder="Phone Number"
                   className="block w-full p-4 text-black rounded-sm bg-white"
+                  value={userInput.phoneNumber}
+                  onChange={(event) => {
+                    const newInput = {
+                      username: userInput.username,
+                      email: userInput.email,
+                      password: userInput.password,
+                      phoneNumber: event.target.value,
+                      address: userInput.address,
+                    };
+                    setUserInput(newInput);
+                  }}
                 />
               </div>
               <div className="pb-2 pt-4">
@@ -117,6 +194,17 @@ const RegisterForm = () => {
                   id='address"'
                   placeholder="Address"
                   className="block w-full p-4 text-black rounded-sm bg-white"
+                  value={userInput.address}
+                  onChange={(event) => {
+                    const newInput = {
+                      username: userInput.username,
+                      email: userInput.email,
+                      password: userInput.password,
+                      phoneNumber: userInput.phoneNumber,
+                      address: event.target.value,
+                    };
+                    setUserInput(newInput);
+                  }}
                 />
               </div>
               {/* <div class="text-right text-gray-400 hover:underline hover:text-gray-100">
