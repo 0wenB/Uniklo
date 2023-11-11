@@ -90,7 +90,7 @@ const RegisterForm = () => {
               {/* w-auto h-7 sm:h-8 inline-flex */}
               UNIKLO
             </h1>
-            {JSON.stringify(userInput)}
+            {/* {JSON.stringify(userInput)} */}
             <div className="py-3 space-x-2">
               <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
                 f

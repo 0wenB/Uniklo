@@ -33,12 +33,14 @@ const ShowProducts = () => {
   if (error) return <h1>{error}</h1>;
   return (
     <>
-      <Link
-        to="/add-product"
-        className="text-red-400 flex justify-center pt-[2rem]"
-      >
-        Add Product
-      </Link>
+      <div className="text-red-400 flex justify-center pt-[2rem]">
+        <Link to="/add-product" className="p-2 underline hover:text-indigo-600">
+          Add Product
+        </Link>
+        <Link to="/categories" className="p-2 underline hover:text-indigo-600">
+          Show Categories
+        </Link>
+      </div>
       <section className="min-h-screen">
         <div className="flex pt-[3rem] justify-center items-center px-2">
           <div className="relative w-[70rem] overflow-x-auto shadow-md sm:rounded-lg ">

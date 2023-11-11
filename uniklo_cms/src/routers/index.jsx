@@ -11,10 +11,22 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <Login />,
+    loader: async () => {
+      if (localStorage.getItem("token")) {
+        return redirect("/products");
+      }
+      return null;
+    },
   },
   {
     path: "/",
     element: <Login />,
+    loader: async () => {
+      if (localStorage.getItem("token")) {
+        return redirect("/products");
+      }
+      return null;
+    },
   },
   {
     element: <Parent />,
@@ -44,6 +56,12 @@ const router = createBrowserRouter([
         element: <RegisterForm />,
       },
     ],
+    loader: async () => {
+      if (!localStorage.getItem("token")) {
+        return redirect("/");
+      }
+      return null;
+    },
   },
 ]);
 

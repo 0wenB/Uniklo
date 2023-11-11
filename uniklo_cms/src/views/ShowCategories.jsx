@@ -44,7 +44,7 @@ const ShowCategories = () => {
                 </tr>
               </thead>
               <tbody>
-                {categories.map((category, i) => {
+                {categories.map((category) => {
                   return (
                     <>
                       <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
