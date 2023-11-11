@@ -7,6 +7,7 @@ const UploadImage = () => {
   const [product, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [file, setFile] = useState();
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -26,6 +27,11 @@ const UploadImage = () => {
       setLoading(false);
     }
   };
+
+  const fileInputOnChange = (e) => {
+    const input = e.target.files[0];
+  };
+
   useEffect(() => {
     fetchData();
   }, []);

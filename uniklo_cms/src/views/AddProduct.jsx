@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 const AddProduct = () => {
   const { productId } = useParams();
   const [categories, setCategories] = useState([]); //buat nunjukin categories di select option
-  const [populateData, setPopulateData] = useState([]); //buat data yg mo dipopulate(edit)
+  // const [populateData, setPopulateData] = useState([]); //buat data yg mo dipopulate(edit)
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,7 +18,6 @@ const AddProduct = () => {
     imgUrl: "",
     stock: "",
     categoryId: "",
-    authorId: "",
     description: "",
   });
 
@@ -29,23 +28,21 @@ const AddProduct = () => {
       imgUrl: userInput.imgUrl,
       stock: userInput.stock,
       categoryId: event.target.value,
-      authorId: userInput.authorId,
       description: userInput.description,
     };
     setUserInput(newInput);
   };
-  const getSelectedValueAuthor = (event) => {
-    const newInput = {
-      name: userInput.name,
-      price: userInput.price,
-      imgUrl: userInput.imgUrl,
-      stock: userInput.stock,
-      categoryId: userInput.categoryId,
-      authorId: event.target.value,
-      description: userInput.description,
-    };
-    setUserInput(newInput);
-  };
+  // const getSelectedValueAuthor = (event) => {
+  //   const newInput = {
+  //     name: userInput.name,
+  //     price: userInput.price,
+  //     imgUrl: userInput.imgUrl,
+  //     stock: userInput.stock,
+  //     categoryId: userInput.categoryId,
+  //     description: userInput.description,
+  //   };
+  //   setUserInput(newInput);
+  // };
 
   const fetchData = async () => {
     try {
@@ -68,7 +65,7 @@ const AddProduct = () => {
           }
         );
         // console.log(data, "<<<");
-        setPopulateData(data.product);
+        // setPopulateData(data.product); //gkjd pake
         // console.log(populateData);
         setUserInput({
           name: data.product.name,
@@ -76,7 +73,6 @@ const AddProduct = () => {
           imgUrl: data.product.imgUrl,
           stock: data.product.stock,
           categoryId: data.product.categoryId,
-          authorId: data.product.authorId,
           description: data.product.description,
         });
       }
@@ -91,9 +87,19 @@ const AddProduct = () => {
     try {
       event.preventDefault();
       const token = localStorage.getItem("token");
-      await axios.post("https://www.bryanowen.tech/products", userInput, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      if (productId) {
+        await axios.put(
+          `https://www.bryanowen.tech/products/${productId}`,
+          userInput,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+      } else {
+        await axios.post("https://www.bryanowen.tech/products", userInput, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
       navigate("/products");
     } catch (error) {
       console.log(error);
@@ -156,7 +162,6 @@ const AddProduct = () => {
                           imgUrl: userInput.imgUrl,
                           stock: userInput.stock,
                           categoryId: userInput.categoryId,
-                          authorId: userInput.authorId,
                           description: userInput.description,
                         };
                         setUserInput(newInput);
@@ -187,7 +192,6 @@ const AddProduct = () => {
                           imgUrl: userInput.imgUrl,
                           stock: userInput.stock,
                           categoryId: userInput.categoryId,
-                          authorId: userInput.authorId,
                           description: userInput.description,
                         };
                         setUserInput(newInput);
@@ -234,7 +238,6 @@ const AddProduct = () => {
                           imgUrl: event.target.value,
                           stock: userInput.stock,
                           categoryId: userInput.categoryId,
-                          authorId: userInput.authorId,
                           description: userInput.description,
                         };
                         setUserInput(newInput);
@@ -260,7 +263,6 @@ const AddProduct = () => {
                             imgUrl: userInput.imgUrl,
                             stock: event.target.value,
                             categoryId: userInput.categoryId,
-                            authorId: userInput.authorId,
                             description: userInput.description,
                           };
                           setUserInput(newInput);
@@ -298,7 +300,7 @@ const AddProduct = () => {
                         Please fill out this field.
                       </p>
                     </div>
-                    {productId ? (
+                    {/* {productId ? (
                       <></>
                     ) : (
                       <div className="w-full flex flex-col mb-3">
@@ -325,7 +327,7 @@ const AddProduct = () => {
                           Please fill out this field.
                         </p>
                       </div>
-                    )}
+                    )} */}
                   </div>
                   <div className="flex-auto w-full mb-1 text-xs space-y-2">
                     <label className="font-semibold text-gray-600 py-2">
@@ -347,7 +349,6 @@ const AddProduct = () => {
                           imgUrl: userInput.imgUrl,
                           stock: userInput.stock,
                           categoryId: userInput.categoryId,
-                          authorId: userInput.authorId,
                           description: event.target.value,
                         };
                         setUserInput(newInput);
