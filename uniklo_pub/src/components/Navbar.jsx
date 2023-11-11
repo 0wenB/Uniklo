@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <>
@@ -47,12 +48,12 @@ const Navbar = () => {
         </div>
         <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
           <li>
-            <a
+            <Link
               className="text-sm text-[#B0A695] font-bold hover:text-[#F46956]"
-              href="/"
+              to="/"
             >
-              Atasan
-            </a>
+              Semua
+            </Link>
           </li>
           <li className="text-gray-300">
             <svg
@@ -71,12 +72,12 @@ const Navbar = () => {
             </svg>
           </li>
           <li>
-            <a
+            <Link
               className="text-sm text-[#B0A695] font-bold hover:text-[#F46956]"
-              href="/"
+              to="/"
             >
-              Dalaman
-            </a>
+              Airism
+            </Link>
           </li>
           <li className="text-gray-300">
             <a
@@ -87,12 +88,12 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <a
+            <Link
               className="text-sm text-[#B0A695] font-bold hover:text-[#ED462F]"
-              href="/"
+              to="/"
             >
-              Luaran
-            </a>
+              Jeans
+            </Link>
           </li>
           <li className="text-gray-300">
             <svg
@@ -111,12 +112,12 @@ const Navbar = () => {
             </svg>
           </li>
           <li>
-            <a
+            <Link
               className="text-sm text-[#B0A695] font-bold hover:text-[#ED462F]"
-              href="/"
+              to="/"
             >
-              Bawahan
-            </a>
+              Blazer
+            </Link>
           </li>
         </ul>
       </nav>

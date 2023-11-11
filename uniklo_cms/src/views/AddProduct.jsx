@@ -280,7 +280,7 @@ const AddProduct = () => {
                         onChange={getSelectedValueCategory}
                       >
                         <option disabled selected>
-                          Category
+                          -Category
                         </option>
                         {categories.map((category) => {
                           return (

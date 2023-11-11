@@ -40,6 +40,9 @@ const ShowProducts = () => {
         <Link to="/categories" className="p-2 underline hover:text-indigo-600">
           Show Categories
         </Link>
+        <Link to="/add-user" className="p-2 underline hover:text-indigo-600">
+          Add User
+        </Link>
       </div>
       <section className="min-h-screen">
         <div className="flex pt-[3rem] justify-center items-center px-2">
