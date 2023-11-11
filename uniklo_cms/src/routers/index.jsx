@@ -32,7 +32,7 @@ const router = createBrowserRouter([
         element: <AddProduct />,
       },
       {
-        path: "/upload-image",
+        path: "/upload-image/:productId",
         element: <UploadImage />,
       },
       {

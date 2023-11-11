@@ -4,18 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 const ShowProducts = () => {
   const navigate = useNavigate();
-  const clickEdit = () => {
-    navigate(`/edit-product`);
-  };
-  const clickDelete = () => {
-    navigate(`/products`);
-  };
-  const clickUpload = () => {
-    navigate(`/upload-image`);
-  };
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -32,6 +25,7 @@ const ShowProducts = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -91,16 +85,27 @@ const ShowProducts = () => {
                         <td className="px-6 py-4">{product.stock}</td>
                         <td className="px-6 py-4">{product.imgUrl}</td>
                         <td className="px-6 py-4">
-                          <Link
-                            to="/edit-product"
-                            className="font-medium pr-2 text-blue-600 dark:text-blue-500 hover:underline"
+                          <button
+                            onClick={() => {
+                              navigate(`/edit-product/${product.id}`);
+                            }}
+                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                           >
                             Edit
-                          </Link>
-                          <Link
-                            href="#"
-                            onClick={async () => {
+                          </button>
+                          <button
+                            // to="/upload-image"
+                            onClick={() => {
+                              navigate(`/upload-image/${product.id}`);
+                            }}
+                            className="font-medium pt-2 text-purple-600 dark:text-blue-500 hover:underline"
+                          >
+                            Upload_IMG
+                          </button>
+                          <button
+                            onClick={async (e) => {
                               try {
+                                e.preventDefault();
                                 const token = localStorage.getItem("token");
                                 await axios.delete(
                                   `https://www.bryanowen.tech/products/${product.id}`,
@@ -110,21 +115,15 @@ const ShowProducts = () => {
                                     },
                                   }
                                 );
-                                clickDelete();
+                                fetchData();
                               } catch (error) {
                                 setError(error.message);
                               }
                             }}
-                            className="font-medium pr-2 text-red-600 dark:text-blue-500 hover:underline"
+                            className="font-medium pt-2 text-red-600 dark:text-blue-500 hover:underline"
                           >
                             Delete
-                          </Link>
-                          <Link
-                            to="/upload-image"
-                            className="font-medium text-purple-600 dark:text-blue-500 hover:underline"
-                          >
-                            Upload_IMG
-                          </Link>
+                          </button>
                         </td>
                       </tr>
                     </>

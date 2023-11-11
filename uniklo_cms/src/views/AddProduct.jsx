@@ -1,8 +1,116 @@
 import ReusableButton from "../components/ReusableButton";
-
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const AddProduct = () => {
+  const { productId } = useParams();
+  const [categories, setCategories] = useState([]); //buat nunjukin categories di select option
+  const [populateData, setPopulateData] = useState([]); //buat data yg mo dipopulate(edit)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
+  const [userInput, setUserInput] = useState({
+    name: "",
+    price: "",
+    imgUrl: "",
+    stock: "",
+    categoryId: "",
+    authorId: "",
+    description: "",
+  });
+
+  const getSelectedValueCategory = (event) => {
+    const newInput = {
+      name: userInput.name,
+      price: userInput.price,
+      imgUrl: userInput.imgUrl,
+      stock: userInput.stock,
+      categoryId: event.target.value,
+      authorId: userInput.authorId,
+      description: userInput.description,
+    };
+    setUserInput(newInput);
+  };
+  const getSelectedValueAuthor = (event) => {
+    const newInput = {
+      name: userInput.name,
+      price: userInput.price,
+      imgUrl: userInput.imgUrl,
+      stock: userInput.stock,
+      categoryId: userInput.categoryId,
+      authorId: event.target.value,
+      description: userInput.description,
+    };
+    setUserInput(newInput);
+  };
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const { data } = await axios.get(
+        "https://www.bryanowen.tech/categories",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      // console.log(data);
+      setCategories(data.categories);
+
+      if (productId) {
+        const { data } = await axios.get(
+          `https://www.bryanowen.tech/products/${productId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        // console.log(data, "<<<");
+        setPopulateData(data.product);
+        // console.log(populateData);
+        setUserInput({
+          name: data.product.name,
+          price: data.product.price,
+          imgUrl: data.product.imgUrl,
+          stock: data.product.stock,
+          categoryId: data.product.categoryId,
+          authorId: data.product.authorId,
+          description: data.product.description,
+        });
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const postData = async (event) => {
+    try {
+      event.preventDefault();
+      const token = localStorage.getItem("token");
+      await axios.post("https://www.bryanowen.tech/products", userInput, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      navigate("/products");
+    } catch (error) {
+      console.log(error);
+      setError(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>{error}</h1>;
   return (
     <>
+      {JSON.stringify(userInput)}
+
       <div
         className="relative min-h-screen flex items-center justify-center bg-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover relative items-center"
         style={{
@@ -11,11 +119,20 @@ const AddProduct = () => {
         }}
       >
         <div className="absolute bg-black opacity-60 inset-0 z-0" />
-        <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg z-10">
+        <form
+          className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg z-10"
+          onSubmit={postData}
+        >
           <div className="grid  gap-8 grid-cols-1">
             <div className="flex flex-col ">
               <div className="flex flex-col sm:flex-row items-center py-2">
-                <h2 className="font-semibold text-lg mr-auto">Add Product</h2>
+                {productId ? (
+                  <h2 className="font-semibold text-lg mr-auto">
+                    Edit Product
+                  </h2>
+                ) : (
+                  <h2 className="font-semibold text-lg mr-auto">Add Product</h2>
+                )}
                 <div className="w-full sm:w-auto sm:ml-auto mt-1 sm:mt-0" />
               </div>
               <div className="">
@@ -31,7 +148,21 @@ const AddProduct = () => {
                       type="text"
                       name="name"
                       id="integration_shop_name"
+                      value={userInput.name}
+                      onChange={(event) => {
+                        const newInput = {
+                          name: event.target.value,
+                          price: userInput.price,
+                          imgUrl: userInput.imgUrl,
+                          stock: userInput.stock,
+                          categoryId: userInput.categoryId,
+                          authorId: userInput.authorId,
+                          description: userInput.description,
+                        };
+                        setUserInput(newInput);
+                      }}
                     />
+
                     <p className="text-red text-xs hidden">
                       Please fill out this field.
                     </p>
@@ -48,6 +179,19 @@ const AddProduct = () => {
                       type="text"
                       name="price"
                       id="integration_shop_name"
+                      value={userInput.price}
+                      onChange={(event) => {
+                        const newInput = {
+                          name: userInput.name,
+                          price: event.target.value,
+                          imgUrl: userInput.imgUrl,
+                          stock: userInput.stock,
+                          categoryId: userInput.categoryId,
+                          authorId: userInput.authorId,
+                          description: userInput.description,
+                        };
+                        setUserInput(newInput);
+                      }}
                     />
                     <p className="text-red text-xs hidden">
                       Please fill out this field.
@@ -81,7 +225,20 @@ const AddProduct = () => {
                       type="text"
                       className="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border border-l-0 h-10 border-grey-light rounded-lg rounded-l-none px-3 relative focus:border-blue focus:shadow"
                       placeholder="https://"
-                      value="imgUrl"
+                      name="imgUrl"
+                      value={userInput.imgUrl}
+                      onChange={(event) => {
+                        const newInput = {
+                          name: userInput.name,
+                          price: userInput.price,
+                          imgUrl: event.target.value,
+                          stock: userInput.stock,
+                          categoryId: userInput.categoryId,
+                          authorId: userInput.authorId,
+                          description: userInput.description,
+                        };
+                        setUserInput(newInput);
+                      }}
                     />
                   </div>
                   <div className="md:flex md:flex-row md:space-x-4 w-full text-xs">
@@ -95,6 +252,19 @@ const AddProduct = () => {
                         type="text"
                         name="stock"
                         id="integration_street_address"
+                        value={userInput.stock}
+                        onChange={(event) => {
+                          const newInput = {
+                            name: userInput.name,
+                            price: userInput.price,
+                            imgUrl: userInput.imgUrl,
+                            stock: event.target.value,
+                            categoryId: userInput.categoryId,
+                            authorId: userInput.authorId,
+                            description: userInput.description,
+                          };
+                          setUserInput(newInput);
+                        }}
                       />
                     </div>
                     <div className="w-full flex flex-col mb-3">
@@ -104,13 +274,22 @@ const AddProduct = () => {
                       <select
                         className="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4 md:w-full "
                         required="required"
-                        name="integration[city_id]"
+                        name="categoryId"
                         id="integration_city_id"
+                        onChange={getSelectedValueCategory}
                       >
-                        <option value="">Seleted location</option>
-                        <option value="">Cochin,KL</option>
-                        <option value="">Mumbai,MH</option>
-                        <option value="">Bangalore,KA</option>
+                        <option disabled selected>
+                          -Category
+                        </option>
+                        {categories.map((category) => {
+                          return (
+                            <>
+                              <option value={category.id}>
+                                {category.name}
+                              </option>
+                            </>
+                          );
+                        })}
                       </select>
                       <p
                         className="text-sm text-red-500 hidden mt-3"
@@ -119,28 +298,34 @@ const AddProduct = () => {
                         Please fill out this field.
                       </p>
                     </div>
-                    <div className="w-full flex flex-col mb-3">
-                      <label className="font-semibold text-gray-600 py-2">
-                        Author<abbr title="required">*</abbr>
-                      </label>
-                      <select
-                        className="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4 md:w-full "
-                        required="required"
-                        name="integration[city_id]"
-                        id="integration_city_id"
-                      >
-                        <option value="">Seleted location</option>
-                        <option value="">Cochin,KL</option>
-                        <option value="">Mumbai,MH</option>
-                        <option value="">Bangalore,KA</option>
-                      </select>
-                      <p
-                        className="text-sm text-red-500 hidden mt-3"
-                        id="error"
-                      >
-                        Please fill out this field.
-                      </p>
-                    </div>
+                    {productId ? (
+                      <></>
+                    ) : (
+                      <div className="w-full flex flex-col mb-3">
+                        <label className="font-semibold text-gray-600 py-2">
+                          Author<abbr title="required">*</abbr>
+                        </label>
+                        <select
+                          className="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4 md:w-full "
+                          required="required"
+                          name="authorId"
+                          id="integration_city_id"
+                          onChange={getSelectedValueAuthor}
+                        >
+                          <option disabled selected>
+                            -Author
+                          </option>
+                          <option value="1">Owen</option>
+                          <option value="2">Meong</option>
+                        </select>
+                        <p
+                          className="text-sm text-red-500 hidden mt-3"
+                          id="error"
+                        >
+                          Please fill out this field.
+                        </p>
+                      </div>
+                    )}
                   </div>
                   <div className="flex-auto w-full mb-1 text-xs space-y-2">
                     <label className="font-semibold text-gray-600 py-2">
@@ -148,12 +333,25 @@ const AddProduct = () => {
                     </label>
                     <textarea
                       required=""
-                      name="message"
+                      name="description"
                       id=""
                       className="w-full min-h-[100px] max-h-[300px] h-28 appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4"
                       placeholder="Enter product info"
                       spellCheck="false"
                       defaultValue={""}
+                      value={userInput.description}
+                      onChange={(event) => {
+                        const newInput = {
+                          name: userInput.name,
+                          price: userInput.price,
+                          imgUrl: userInput.imgUrl,
+                          stock: userInput.stock,
+                          categoryId: userInput.categoryId,
+                          authorId: userInput.authorId,
+                          description: event.target.value,
+                        };
+                        setUserInput(newInput);
+                      }}
                     />
                   </div>
                   <ReusableButton />
@@ -161,7 +359,7 @@ const AddProduct = () => {
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );

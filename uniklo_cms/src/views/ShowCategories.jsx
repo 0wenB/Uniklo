@@ -1,4 +1,32 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 const ShowCategories = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const { data } = await axios.get(
+        "https://www.bryanowen.tech/categories",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      // console.log(data);
+      setCategories(data.categories);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>{error}</h1>;
   return (
     <>
       <section className="min-h-screen">
@@ -16,10 +44,16 @@ const ShowCategories = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td className="px-6 py-4">1</td>
-                  <td className="px-6 py-4">Airism</td>
-                </tr>
+                {categories.map((category, i) => {
+                  return (
+                    <>
+                      <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td className="px-6 py-4">{category.id}</td>
+                        <td className="px-6 py-4">{category.name}</td>
+                      </tr>
+                    </>
+                  );
+                })}
               </tbody>
             </table>
           </div>

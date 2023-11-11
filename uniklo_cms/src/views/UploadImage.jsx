@@ -1,4 +1,36 @@
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 const UploadImage = () => {
+  const { productId } = useParams();
+  const [product, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const { data } = await axios.get(
+        `https://www.bryanowen.tech/products/${productId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      // console.log(data);
+      // console.log(data.data.product);
+      setProducts(data.product);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>{error}</h1>;
   return (
     <>
       <section className="min-h-screen flex items-center justify-center">
@@ -6,7 +38,7 @@ const UploadImage = () => {
           <div className="xl:w-2/6 lg:w-2/5 md:block">
             <img
               className="w-full h-[30rem] object-fit object-cover "
-              src="https://www.uniqlo.com.hk/hmall/test/u0000000019172/main/first/1000/1.jpg"
+              src={product.imgUrl}
             />
             {/* s:h-[20rem] md:h-[30rem] s:object-contain md:object-fit md:object-cover */}
           </div>
@@ -14,7 +46,7 @@ const UploadImage = () => {
             {/* component */}
             <section className="max-w-4xl p-6 mx-auto bg-[#F46956] rounded-md shadow-md dark:bg-gray-800 ">
               <h1 className="text-xl font-bold text-white capitalize dark:text-white">
-                MEN +J WOOL BLENDED OVERSIZED SHIRT JACKET
+                {product.name}
               </h1>
               <form className="py-4">
                 <div>
