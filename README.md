@@ -9,3 +9,13 @@ https://uniklo-3339a.web.app/
 ## Link CMS:
 
 https://uniklo-cms.web.app/products
+
+```
+Test Admin:
+email: owen@mail.com
+password: owenheheh
+
+Test Staff:
+email: meong@mail.com
+password: meongheheh
+```
